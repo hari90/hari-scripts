@@ -43,7 +43,7 @@ def RunWorkload(db_connection, reader):
         f.write("\n%s\nStarting %s %s %s\n\n" % (separator, args.host, args.user, args.database))
         while keep_running:
             start_time = datetime.now()
-            result = subprocess.run(db_connection +[query], capture_output=True, text=True)
+            result = subprocess.run(db_connection + query, capture_output=True, text=True)
             end_time = datetime.now()
 
             extra_logs = ""
