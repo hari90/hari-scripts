@@ -25,12 +25,12 @@ separator = "------------------------"
 
 def RunWorkload(db_connection, reader):
     file_name = "writer.out"
-    query = "UPDATE write_test SET a=1"
+    query = "SET statement_timeout TO 1000; UPDATE write_test SET a=1"
     kind = "Writer"
     if reader:
         kind = "Reader"
         file_name = "reader.out"
-        query = "SELECT * FROM write_test"
+        query = "SET statement_timeout TO 1000; SELECT * FROM write_test"
 
     first_10_avg_duration = 0
     max_duration = 0
