@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     program = "psql"
     if args.user == "yugabyte":
-        program = "~/yugabyte-client-2.20.3.0/bin/ysqlsh"
+        program = "/home/ec2-user/yugabyte-client-2.20.3.0/bin/ysqlsh"
 
     db_connection = [program, "-h", args.host, "-U", args.user ,"-d", args.database, "-c"]
     # Create table and insert 1000 rows.
