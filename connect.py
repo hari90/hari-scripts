@@ -30,7 +30,7 @@ def RunWorkload(db_connection, reader):
     if reader:
         kind = "Reader"
         file_name = "reader.out"
-        query = "SET statement_timeout TO 1000; SELECT * FROM write_test"
+        query = "SET statement_timeout TO 1000; SELECT SUM(a) FROM write_test"
 
     first_10_avg_duration = 0
     max_duration = 0
