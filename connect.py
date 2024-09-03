@@ -25,12 +25,12 @@ separator = "------------------------"
 
 def RunWorkload(db_connection, reader):
     file_name = "writer.out"
-    query = "UPDATE write_test SET a=1"
+    query = ["-f", "./sql/connect_update.sql"]
     kind = "Writer"
     if reader:
         kind = "Reader"
         file_name = "reader.out"
-        query = "SELECT SUM(a) FROM write_test"
+    query = ["-f", "./sql/connect_select.sql"]
 
     first_10_avg_duration = 0
     max_duration = 0
@@ -87,14 +87,14 @@ if __name__ == "__main__":
     if args.user == "yugabyte":
         program = "/home/ec2-user/yugabyte-client-2.20.3.0/bin/ysqlsh"
 
-    db_connection = [program, "-h", args.host, "-U", args.user ,"-d", args.database, "-c"]
+    db_connection = [program, "-h", args.host, "-U", args.user ,"-d", args.database]
     # Create table and insert 1000 rows.
-    subprocess.run(db_connection + ["CREATE TABLE IF NOT EXISTS write_test (a int); INSERT INTO write_test SELECT generate_series(1,1000) WHERE NOT EXISTS (SELECT * FROM write_test);"])
+    subprocess.run(db_connection + ["-c", "CREATE TABLE IF NOT EXISTS write_test (a int); INSERT INTO write_test SELECT generate_series(1,1000) WHERE NOT EXISTS (SELECT * FROM write_test);"])
 
     write_thread = Thread(target = RunWorkload, args = (db_connection, False ))
 
     if len(args.read_host) > 0:
-        db_connection = [program, "-h", args.read_host, "-U", args.user ,"-d", args.database, "-c"]
+        db_connection = [program, "-h", args.read_host, "-U", args.user ,"-d", args.database]
     read_thread = Thread(target = RunWorkload, args = (db_connection, True ))
 
     read_thread.start()
