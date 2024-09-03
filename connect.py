@@ -79,6 +79,7 @@ def RunWorkload(db_connection, reader):
 
         log(f, kind, "\nAvg duration: %ss\nMax duration: %ss\nTotal Outage: %ss\n" % (round(first_10_avg_duration, 3), round(max_duration, 3), round(total_outage, 3)))
 
+# Usage: python3 connect.py -ip <writer_ip> -U <user> -d <database_name> -read_ip <reader_ip>
 
 if __name__ == "__main__":
 
