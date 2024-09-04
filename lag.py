@@ -11,6 +11,7 @@ parser.add_argument('-read_ip','--read_host', default="", help="DB Host IP for r
 parser.add_argument('-U','--user', help="DB User")
 parser.add_argument('-d', '--database', help="Database Name")
 parser.add_argument('-vlog', '--vlog', help="Log everything")
+parser.add_argument('-ysqlsh_path', '--ysqlsh_path', default="ysqlsh", help="ysqlsh path")
 args = parser.parse_args()
 
 keep_running = True
@@ -24,13 +25,13 @@ def log(f, kind, message):
 separator = "------------------------"
 
 def RunWorkload(db_connection, reader):
-    file_name = "writer.out"
-    query = ["-f", "./sql/connect_update.sql"]
+    file_name = "lag_writer.out"
+    query = ["-f", "./sql/lag_update.sql"]
     kind = "Writer"
     if reader:
         kind = "Reader"
-        file_name = "reader.out"
-    query = ["-f", "./sql/connect_select.sql"]
+        file_name = "lag_reader.out"
+        query = ["-t", "-f", "./sql/lag_select.sql"]
 
     first_10_avg_duration = 0
     max_duration = 0
@@ -45,6 +46,21 @@ def RunWorkload(db_connection, reader):
             start_time = datetime.now()
             result = subprocess.run(db_connection + query, capture_output=True, text=True)
             end_time = datetime.now()
+
+            # from stdout extract the line that matches 'NOTICE:  Lag: '
+            if reader and len(result.stderr) > 0 and "NOTICE:  Lag: " in result.stderr:
+                lag_line = result.stderr.splitlines()[-1]
+                if "NOTICE:  Lag: " in lag_line:
+                    lag = float(result.stderr.splitlines()[-1].split(":")[-1].strip())
+                    print("Lag: %sms" % lag)
+
+            # if reader and len(result.stdout) > 1:
+            #     lag_line = result.stdout.splitlines()[-2]
+            #     try:
+            #         lag = float(lag_line)
+            #         print("Lag: %sms" % lag)
+            #     except ValueError:
+            #         pass
 
             extra_logs = ""
             if result.returncode == 0:
@@ -85,11 +101,11 @@ if __name__ == "__main__":
 
     program = "psql"
     if args.user == "yugabyte":
-        program = "/home/ec2-user/yugabyte-client-2.20.3.0/bin/ysqlsh"
+        program = args.ysqlsh_path
 
     db_connection = [program, "-h", args.host, "-U", args.user ,"-d", args.database]
     # Create table and insert 1000 rows.
-    subprocess.run(db_connection + ["-c", "CREATE TABLE IF NOT EXISTS write_test (a int); INSERT INTO write_test SELECT generate_series(1,1000) WHERE NOT EXISTS (SELECT * FROM write_test);"])
+    subprocess.run(db_connection + ["-c", "CREATE TABLE IF NOT EXISTS lag_test (a int, t TIMESTAMP); INSERT INTO lag_test SELECT generate_series(1,1000), now() WHERE NOT EXISTS (SELECT * FROM lag_test);"])
 
     write_thread = Thread(target = RunWorkload, args = (db_connection, False ))
 

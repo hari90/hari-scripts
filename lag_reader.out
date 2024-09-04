@@ -1,0 +1,609 @@
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:33:46.251770, duration: 0.669s <Failed last_success: 2024-09-03 17:33:46.149692>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:2: ERROR:  canceling statement due to user request
+
+
+Avg duration: 2.723s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:34:31.872541, duration: 0.721s <Failed last_success: 2024-09-03 17:34:31.768303>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:2: ERROR:  canceling statement due to user request
+
+
+Avg duration: 2.806s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:36:15.404603, duration: 0.688s <Failed last_success: 2024-09-03 17:36:15.300163>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:3: ERROR:  canceling statement due to user request
+
+
+Avg duration: 4.158s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:36:42.178212, duration: 0.7s <Failed last_success: 2024-09-03 17:36:42.075897>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:2: ERROR:  canceling statement due to user request
+
+
+Avg duration: 2.762s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:37:28.716602, duration: 0.694s <Failed last_success: 2024-09-03 17:37:28.612071>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:2: ERROR:  canceling statement due to user request
+
+
+Avg duration: 2.82s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:37:48.532569, duration: 0.73s <Failed last_success: 2024-09-03 17:37:48.429012>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:2: ERROR:  canceling statement due to user request
+
+
+Avg duration: 6.669s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+
+Avg duration: 4.307s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:40:09.513759, duration: 0.737s <Failed last_success: 2024-09-03 17:40:09.412168>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:3: ERROR:  canceling statement due to user request
+
+
+Avg duration: 3.072s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:43:05.970918, duration: 0.706s <Avg Duration 0.684s>
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:43:32.523385, duration: 0.016s <Failed last_success: 2024-09-03 17:43:32.419411>
+Error: 
+
+Avg duration: 4.72s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:43:51.933223, duration: 0.024s <Failed last_success: 2024-09-03 17:43:51.828203>
+Error: 
+
+Avg duration: 2.427s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:44:31.248983, duration: 0.869s <Avg Duration 0.939s>
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:46:12.075355, duration: 0.831s <Avg Duration 0.831s>
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 17:46:57.932076, duration: 0.838s <Avg Duration 0.85s>
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 20:34:37.603149, duration: 0.803s <Avg Duration 0.831s>
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 20:38:22.032099, duration: 0.867s <Avg Duration 0.87s>
+
+Avg duration: 0.87s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 20:38:57.681273, duration: 0.885s <Avg Duration 0.861s>
+start_time: 2024-09-03 20:39:07.309426, duration: 0.882s <Failed last_success: 2024-09-03 20:39:07.206235>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:3: ERROR:  canceling statement due to user request
+
+
+Avg duration: 0.861s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 20:39:12.334375, duration: 0.044s <Failed last_success: 2024-09-03 20:39:12.231513>
+Error: 
+
+Avg duration: 1.721s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 20:40:11.694298, duration: 0.86s <Avg Duration 0.836s>
+start_time: 2024-09-03 20:40:40.057755, duration: 0.098s <Failed last_success: 2024-09-03 20:40:39.954658>
+Error: 
+
+Avg duration: 0.836s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 20:43:41.377164, duration: 0.169s <Avg Duration 0.166s>
+
+Avg duration: 0.166s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 20:58:59.310762, duration: 0.848s <Failed last_success: 2024-09-03 20:58:59.207133>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:5: ERROR:  canceling statement due to user request
+
+
+Avg duration: 7.268s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 20:59:45.548838, duration: 0.805s <Failed last_success: 2024-09-03 20:59:45.443861>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:5: ERROR:  canceling statement due to user request
+
+
+Avg duration: 3.494s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+
+Avg duration: 9.231s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:02:30.182380, duration: 0.845s <Failed last_success: 2024-09-03 21:02:30.078952>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:5: ERROR:  canceling statement due to user request
+
+
+Avg duration: 8.913s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:02:58.804941, duration: 0.854s <Failed last_success: 2024-09-03 21:02:58.701998>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:6: ERROR:  canceling statement due to user request
+
+
+Avg duration: 7.258s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:03:31.303562, duration: 0.833s <Failed last_success: 2024-09-03 21:03:31.198721>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:6: ERROR:  canceling statement due to user request
+
+
+Avg duration: 6.425s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:03:56.255758, duration: 0.158s <Avg Duration 0.174s>
+start_time: 2024-09-03 21:03:57.952735, duration: 0.921s <Failed last_success: 2024-09-03 21:03:57.848127>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:4: ERROR:  canceling statement due to user request
+ <Slow query>
+
+Avg duration: 0.174s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:04:03.852171, duration: 0.838s <Failed last_success: 2024-09-03 21:04:03.748799>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:4: ERROR:  canceling statement due to user request
+
+
+Avg duration: 3.547s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:04:15.721130, duration: 0.863s <Avg Duration 0.853s>
+start_time: 2024-09-03 21:04:26.248125, duration: 0.868s <Failed last_success: 2024-09-03 21:04:26.143061>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:4: ERROR:  canceling statement due to user request
+
+
+Avg duration: 0.853s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:06:23.710342, duration: 0.876s <Failed last_success: 2024-09-03 21:06:23.608378>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:5: ERROR:  canceling statement due to user request
+
+
+Avg duration: 5.373s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:06:43.077522, duration: 0.862s <Avg Duration 0.891s>
+start_time: 2024-09-03 21:06:51.846142, duration: 0.864s <Failed last_success: 2024-09-03 21:06:51.742791>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:5: ERROR:  canceling statement due to user request
+
+
+Avg duration: 0.891s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:09:12.827563, duration: 0.693s <Failed last_success: 2024-09-03 21:09:12.723677>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:15: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "SELECT EXTRACT(EPOCH FROM (now_time - max_lag))*1000"
+PL/pgSQL function inline_code_block line 8 at RAISE
+
+
+Avg duration: 5.608s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:09:45.896266, duration: 0.703s <Failed last_success: 2024-09-03 21:09:45.792879>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:15: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "SELECT EXTRACT(EPOCH FROM (now_time - max_lag))*1000"
+PL/pgSQL function inline_code_block line 8 at RAISE
+
+
+Avg duration: 1.412s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:10:11.976794, duration: 0.318s <Failed last_success: 2024-09-03 21:10:11.872594>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:15: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "SELECT min(t)              FROM lag_test"
+PL/pgSQL function inline_code_block line 6 at SQL statement
+
+
+Avg duration: 3.768s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:10:38.305110, duration: 0.694s <Failed last_success: 2024-09-03 21:10:38.201933>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:15: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "SELECT EXTRACT(EPOCH FROM (now_time - max_lag))*1000"
+PL/pgSQL function inline_code_block line 8 at RAISE
+
+
+Avg duration: 5.604s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:10:49.997900, duration: 0.346s <Failed last_success: 2024-09-03 21:10:49.893264>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:15: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "SELECT now()"
+PL/pgSQL function inline_code_block line 7 at SQL statement
+
+
+Avg duration: 3.857s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:11:40.118063, duration: 0.161s <Failed last_success: 2024-09-03 21:11:40.014443>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:15: ERROR:  unrecognized exception condition "error"
+CONTEXT:  compilation of PL/pgSQL function "inline_code_block" near line 8
+
+
+Avg duration: 1.563s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:12:07.579147, duration: 0.009s <Failed last_success: 2024-09-03 21:12:07.476940>
+Error: 
+
+Avg duration: 0.794s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:12:13.872754, duration: 0.069s <Failed last_success: 2024-09-03 21:12:13.769489>
+Error: 
+
+Avg duration: 1.063s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:12:31.685398, duration: 0.875s <Failed last_success: 2024-09-03 21:12:31.580990>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:5: ERROR:  canceling statement due to user request
+
+
+Avg duration: 4.572s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:17:32.058271, duration: 0.014s <Failed last_success: 2024-09-03 21:17:31.954603>
+Error: 
+
+Avg duration: 0.695s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:17:40.464116, duration: 0.714s <Failed last_success: 2024-09-03 21:17:40.362960>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:15: NOTICE:  Lag: 271.124
+
+
+Avg duration: 3.512s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+
+Avg duration: 2.108s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:19:08.075002, duration: 0.667s <Avg Duration 0.692s>
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:20:13.670263, duration: 0.672s <Avg Duration 0.687s>
+start_time: 2024-09-03 21:20:16.025869, duration: 0.7s <Failed last_success: 2024-09-03 21:20:15.921594>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:15: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "SELECT EXTRACT(EPOCH FROM (now_time - max_lag))*1000"
+PL/pgSQL function inline_code_block line 8 at RAISE
+
+
+Avg duration: 0.687s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:50:20.410509, duration: 0.696s <Failed last_success: 2024-09-03 21:50:20.307014>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:15: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "SELECT EXTRACT(EPOCH FROM (now_time - max_lag))*1000"
+PL/pgSQL function inline_code_block line 8 at RAISE
+
+
+Avg duration: 5.606s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:51:53.637591, duration: 0.34s <Failed last_success: 2024-09-03 21:51:53.532690>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:17: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "SELECT min(t)              FROM lag_test"
+PL/pgSQL function inline_code_block line 8 at SQL statement
+
+
+Avg duration: 4.712s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:52:40.759363, duration: 0.827s <Avg Duration 0.838s>
+start_time: 2024-09-03 21:52:58.665016, duration: 0.076s <Failed last_success: 2024-09-03 21:52:58.561641>
+Error: 
+
+Avg duration: 0.838s
+Max duration: 0s
+Total Outage: 0s
+
+
+------------------------
+Starting 127.0.0.1 yugabyte yugabyte
+
+start_time: 2024-09-03 21:53:06.063464, duration: 0.316s <Failed last_success: 2024-09-03 21:53:05.960048>
+Error: Cancel request sent
+ysqlsh:./sql/lag_select.sql:15: ERROR:  canceling statement due to user request
+CONTEXT:  SQL statement "SELECT min(t)              FROM lag_test"
+PL/pgSQL function inline_code_block line 6 at SQL statement
+
+
+Avg duration: 4.547s
+Max duration: 0s
+Total Outage: 0s
+
