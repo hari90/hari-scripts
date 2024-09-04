@@ -50,6 +50,7 @@ def RunReader(db_connection: list):
         while keep_running:
             start_time = datetime.now()
             result = subprocess.run(db_connection + query, capture_output=True, text=True)
+            end_time = datetime.now()
             extra_logs = ""
 
             # from stdout extract the line that matches 'NOTICE:  Lag: '
@@ -64,17 +65,18 @@ def RunReader(db_connection: list):
             if lag > max_lag:
                 max_lag = lag
 
+            duration = (end_time - start_time).total_seconds()*1000
             if i < 10:
                 first_10_avg += lag
             elif i == 10:
                 first_10_avg /= 10
-                extra_logs += " <Avg Duration %sms>" % (round(first_10_avg, 3))
+                extra_logs += " <Avg lag %sms>" % (round(first_10_avg, 3))
             elif i> 10 and lag > first_10_avg*2.0:
                 extra_logs += " <High lag>"
 
 
             if args.vlog or len(extra_logs) > 0:
-                to_print = "start_time: %s, lag: %ss%s" % (start_time, round(lag, 3), extra_logs)
+                to_print = "start_time: %s, duration: %sms, lag: %sms%s" % (start_time, round(duration, 3), round(lag, 3), extra_logs)
                 log(f, kind, to_print)
 
             time.sleep(0.1)
