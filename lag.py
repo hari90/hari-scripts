@@ -24,78 +24,61 @@ def log(f, kind, message):
 
 separator = "------------------------"
 
-def RunWorkload(db_connection, reader):
+def RunWriter(db_connection: list):
+    kind = "Writer"
     file_name = "lag_writer.out"
     query = ["-f", "./sql/lag_update.sql"]
-    kind = "Writer"
-    if reader:
-        kind = "Reader"
-        file_name = "lag_reader.out"
-        query = ["-t", "-f", "./sql/lag_select.sql"]
 
-    first_10_avg_duration = 0
-    max_duration = 0
+    with open(file_name, "a") as f:
+        f.write("\n%s\nStarting %s %s %s\n\n" % (separator, args.host, args.user, args.database))
+        while keep_running:
+            subprocess.run(db_connection + query, capture_output=True, text=True)
+            time.sleep(0.1)
+
+
+def RunReader(db_connection: list):
+    kind = "Reader"
+    file_name = "lag_reader.out"
+    query = ["-t", "-f", "./sql/lag_select.sql"]
+
+    first_10_avg = 0
     i=0
-    last_success = datetime.now()
-    previous_succeeded = True
-    total_outage = 0
 
     with open(file_name, "a") as f:
         f.write("\n%s\nStarting %s %s %s\n\n" % (separator, args.host, args.user, args.database))
         while keep_running:
             start_time = datetime.now()
             result = subprocess.run(db_connection + query, capture_output=True, text=True)
-            end_time = datetime.now()
 
             # from stdout extract the line that matches 'NOTICE:  Lag: '
-            if reader and len(result.stderr) > 0 and "NOTICE:  Lag: " in result.stderr:
-                lag_line = result.stderr.splitlines()[-1]
-                if "NOTICE:  Lag: " in lag_line:
-                    lag = float(result.stderr.splitlines()[-1].split(":")[-1].strip())
-                    print("Lag: %sms" % lag)
-
-            # if reader and len(result.stdout) > 1:
-            #     lag_line = result.stdout.splitlines()[-2]
-            #     try:
-            #         lag = float(lag_line)
-            #         print("Lag: %sms" % lag)
-            #     except ValueError:
-            #         pass
+            if len(result.stderr) > 0 and "NOTICE:  Lag: " in result.stderr.splitlines()[-1]:
+                lag = float(result.stderr.splitlines()[-1].split(":")[-1].strip())
+                print("Lag: %sms" % lag)
+            else:
+                continue
 
             extra_logs = ""
-            if result.returncode == 0:
-                if not previous_succeeded:
-                    outage = (start_time - last_success).total_seconds()
-                    total_outage += outage
-                    extra_logs += " <Recovered %ss>" % (round(outage, 3))
-                previous_succeeded = True
-                last_success = end_time
-            else:
-                previous_succeeded = False
-                extra_logs += " <Failed last_success: %s>\nError: %s" % (last_success, result.stderr)
-
-            duration = (end_time - start_time).total_seconds()
             if i < 10:
-                first_10_avg_duration += duration
-            if i == 10:
-                first_10_avg_duration /= 10
-                extra_logs += " <Avg Duration %ss>" % (round(first_10_avg_duration, 3))
-            if i> 10 and duration > first_10_avg_duration*2.0:
-                extra_logs += " <Slow query>"
-                if previous_succeeded and duration > max_duration:
-                    max_duration = duration
+                first_10_avg += lag
+            elif i == 10:
+                first_10_avg /= 10
+                extra_logs += " <Avg Duration %ss>" % (round(first_10_avg, 3))
+            elif i> 10 and lag > first_10_avg*2.0:
+                extra_logs += " <High lag>"
+                if lag > max_lag:
+                    max_lag = lag
 
 
             if args.vlog or len(extra_logs) > 0:
-                to_print = "start_time: %s, duration: %ss%s" % (start_time, round(duration, 3), extra_logs)
+                to_print = "start_time: %s, lag: %ss%s" % (start_time, round(lag, 3), extra_logs)
                 log(f, kind, to_print)
 
             time.sleep(0.1)
             i += 1
 
-        log(f, kind, "\nAvg duration: %ss\nMax duration: %ss\nTotal Outage: %ss\n" % (round(first_10_avg_duration, 3), round(max_duration, 3), round(total_outage, 3)))
+        log(f, kind, "\nAvg lag: %sms\nMax lag: %sms\n\n" % (round(first_10_avg, 3), round(max_lag, 3)))
 
-# Usage: python3 connect.py -ip <writer_ip> -U <user> -d <database_name> -read_ip <reader_ip>
+# Usage: python3 lag.py -ip <writer_ip> -U <user> -d <database_name> -read_ip <reader_ip>
 
 if __name__ == "__main__":
 
@@ -107,14 +90,15 @@ if __name__ == "__main__":
     # Create table and insert 1000 rows.
     subprocess.run(db_connection + ["-c", "CREATE TABLE IF NOT EXISTS lag_test (a int, t TIMESTAMP); INSERT INTO lag_test SELECT generate_series(1,1000), now() WHERE NOT EXISTS (SELECT * FROM lag_test);"])
 
-    write_thread = Thread(target = RunWorkload, args = (db_connection, False ))
+    write_thread = Thread(target = RunWriter, args = ([db_connection]))
 
     if len(args.read_host) > 0:
         db_connection = [program, "-h", args.read_host, "-U", args.user ,"-d", args.database]
-    read_thread = Thread(target = RunWorkload, args = (db_connection, True ))
+    read_thread = Thread(target = RunReader, args = ([db_connection]))
 
-    read_thread.start()
     write_thread.start()
+    time.sleep(2)
+    read_thread.start()
 
     try:
         while True:

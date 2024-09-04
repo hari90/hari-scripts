@@ -61,10 +61,10 @@ def RunWorkload(db_connection, reader):
             duration = (end_time - start_time).total_seconds()
             if i < 10:
                 first_10_avg_duration += duration
-            if i == 10:
+            elif i == 10:
                 first_10_avg_duration /= 10
                 extra_logs += " <Avg Duration %ss>" % (round(first_10_avg_duration, 3))
-            if i> 10 and duration > first_10_avg_duration*2.0:
+            elif i> 10 and duration > first_10_avg_duration*2.0:
                 extra_logs += " <Slow query>"
                 if previous_succeeded and duration > max_duration:
                     max_duration = duration
