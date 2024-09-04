@@ -50,18 +50,21 @@ def RunReader(db_connection: list):
         while keep_running:
             start_time = datetime.now()
             result = subprocess.run(db_connection + query, capture_output=True, text=True)
+            extra_logs = ""
 
             # from stdout extract the line that matches 'NOTICE:  Lag: '
             if len(result.stderr) > 0 and "NOTICE:  Lag: " in result.stderr.splitlines()[-1]:
                 lag = float(result.stderr.splitlines()[-1].split(":")[-1].strip())
                 print("Lag: %sms" % lag)
+                if lag < 0:
+                    extra_logs += " <Negative lag %s>" % lag
+                    lag = 0
             else:
                 continue
 
             if lag > max_lag:
                 max_lag = lag
 
-            extra_logs = ""
             if i < 10:
                 first_10_avg += lag
             elif i == 10:
