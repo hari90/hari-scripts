@@ -43,6 +43,7 @@ def RunReader(db_connection: list):
 
     first_10_avg = 0
     i=0
+    max_lag=0
 
     with open(file_name, "a") as f:
         f.write("\n%s\nStarting %s %s %s\n\n" % (separator, args.host, args.user, args.database))
@@ -57,6 +58,9 @@ def RunReader(db_connection: list):
             else:
                 continue
 
+            if lag > max_lag:
+                max_lag = lag
+
             extra_logs = ""
             if i < 10:
                 first_10_avg += lag
@@ -65,8 +69,6 @@ def RunReader(db_connection: list):
                 extra_logs += " <Avg Duration %ss>" % (round(first_10_avg, 3))
             elif i> 10 and lag > first_10_avg*2.0:
                 extra_logs += " <High lag>"
-                if lag > max_lag:
-                    max_lag = lag
 
 
             if args.vlog or len(extra_logs) > 0:
