@@ -7,9 +7,7 @@ SET statement_timeout TO 1000;
 DO $$
 DECLARE
   max_lag TIMESTAMP;
-  now_time TIMESTAMP;
 BEGIN
     SELECT min(t) INTO max_lag FROM lag_test;
-    SELECT now() INTO now_time;
-    RAISE NOTICE 'Lag: %', EXTRACT(EPOCH FROM (now_time - max_lag))*1000;
+    RAISE NOTICE 'Lag: %', EXTRACT(EPOCH FROM (now() - max_lag))*1000;
 END $$;

@@ -63,6 +63,7 @@ def RunReader(db_connection: list):
                 continue
 
             if lag > max_lag:
+                extra_logs += " <Max lag %sms>" % (round(lag, 3))
                 max_lag = lag
 
             duration = (end_time - start_time).total_seconds()*1000
