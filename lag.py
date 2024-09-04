@@ -2,6 +2,7 @@ import argparse
 from datetime import datetime, timedelta
 import subprocess
 from threading import Thread
+import threading
 import time
 
 
@@ -15,6 +16,8 @@ parser.add_argument('-ysqlsh_path', '--ysqlsh_path', default="ysqlsh", help="ysq
 args = parser.parse_args()
 
 keep_running = True
+last_write_time = datetime.now()
+las_write_lock = threading.Lock()
 
 def log(f, kind, message):
     f.write(message)
@@ -27,14 +30,19 @@ separator = "------------------------"
 def RunWriter(db_connection: list):
     kind = "Writer"
     file_name = "lag_writer.out"
-    query = ["-f", "./sql/lag_update.sql"]
+    # query = ["-c", "./sql/lag_update.sql"]
+    global last_write_time
 
     with open(file_name, "a") as f:
         f.write("\n%s\nStarting %s %s %s\n\n" % (separator, args.host, args.user, args.database))
         while keep_running:
-            subprocess.run(db_connection + query, capture_output=True, text=True)
-            time.sleep(0.1)
+            now = datetime.now()
+            subprocess.run(db_connection + ["-c", "UPDATE lag_test SET t='%s'"%now], capture_output=True, text=True)
+            las_write_lock.acquire()
+            last_write_time = now
+            las_write_lock.release()
 
+            time.sleep(0.1)
 
 def RunReader(db_connection: list):
     kind = "Reader"
@@ -49,15 +57,22 @@ def RunReader(db_connection: list):
         f.write("\n%s\nStarting %s %s %s\n\n" % (separator, args.host, args.user, args.database))
         while keep_running:
             start_time = datetime.now()
+            las_write_lock.acquire()
+            expected_time = last_write_time
+            las_write_lock.release()
+
             result = subprocess.run(db_connection + query, capture_output=True, text=True)
             end_time = datetime.now()
             extra_logs = ""
 
-            # from stdout extract the line that matches 'NOTICE:  Lag: '
-            if len(result.stderr) > 0 and "NOTICE:  Lag: " in result.stderr.splitlines()[-1]:
-                lag = float(result.stderr.splitlines()[-1].split(":")[-1].strip())
+            if len(result.stdout) > 1:
+                output_time = datetime.strptime(result.stdout.splitlines()[-2].strip(), "%Y-%m-%d %H:%M:%S.%f")
+                # print("output_time: %s, expected_time: %s" % (output_time, expected_time))
+                lag = (expected_time - output_time).total_seconds()*1000
+                # print(lag)
+
                 if lag < 0:
-                    extra_logs += " <Negative lag %s>" % lag
+                    # extra_logs += " <Negative lag %s>" % lag
                     lag = 0
             else:
                 continue
