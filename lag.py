@@ -55,7 +55,6 @@ def RunReader(db_connection: list):
             # from stdout extract the line that matches 'NOTICE:  Lag: '
             if len(result.stderr) > 0 and "NOTICE:  Lag: " in result.stderr.splitlines()[-1]:
                 lag = float(result.stderr.splitlines()[-1].split(":")[-1].strip())
-                print("Lag: %sms" % lag)
                 if lag < 0:
                     extra_logs += " <Negative lag %s>" % lag
                     lag = 0
@@ -69,7 +68,7 @@ def RunReader(db_connection: list):
                 first_10_avg += lag
             elif i == 10:
                 first_10_avg /= 10
-                extra_logs += " <Avg Duration %ss>" % (round(first_10_avg, 3))
+                extra_logs += " <Avg Duration %sms>" % (round(first_10_avg, 3))
             elif i> 10 and lag > first_10_avg*2.0:
                 extra_logs += " <High lag>"
 
