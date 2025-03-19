@@ -4,6 +4,7 @@ import subprocess
 from threading import Thread
 import threading
 import time
+import psycopg2
 
 
 parser = argparse.ArgumentParser(description="")
