@@ -5,6 +5,9 @@ import re
 file_headers = defaultdict(list)
 headers_headers=defaultdict(list)
 headers_use=defaultdict(list)
+header_weight=defaultdict(int)
+file_line_count=defaultdict(int)
+weighted_header_use=defaultdict(int)
 
 def count_headers():
     src_folder = pathlib.Path("src/yb")
@@ -19,21 +22,27 @@ def count_headers():
     include_pattern = re.compile(r'^\s*#include\s*"(.*?.h)"')
     
     for file_path in file_paths:
+        count=0
         try:
             with open(file_path, "r", encoding="utf-8") as f:
+                normalizedfile_path=file_path.removeprefix("src/")
                 for line in f:
+                    count=count+1
                     match = include_pattern.match(line)
                     if match:
                         included_header = match.group(1)
-                        file_headers[file_path.removeprefix("src/")].append(included_header.removeprefix("src/"))
+                        file_headers[normalizedfile_path].append(included_header.removeprefix("src/"))
+                file_line_count[normalizedfile_path]=count
         except Exception as e:
             print(f"Error reading {file_path}: {e}")
     
     # Gets only headers
     for ffile in file_headers:
         if ffile.endswith(".h"):
+            header_weight[ffile]=file_line_count[ffile]
             for header in file_headers[ffile]:
                 headers_headers[ffile].append(header)
+                header_weight[ffile]+=file_line_count[header]
     
     for ffile in file_headers:
         for header in file_headers[ffile]:
@@ -50,6 +59,11 @@ def count_headers():
         if not ffile.endswith(".h"):
             for header in file_headers[ffile]:
                 accumulate_counts(header, set())
+    
+    # Compute weighted header usage
+    weighted_header_use=defaultdict(int)
+    for header in headers_use:
+        weighted_header_use[header]=headers_use[header]*header_weight[header]
     
     # Print most used headers
     for w in sorted(headers_use, key=headers_use.get, reverse=True):
@@ -70,6 +84,11 @@ for w in sorted(headers_use, key=headers_use.get, reverse=True):
         if not w.startswith("yb/gutil") and not w.startswith("yb/util")  and not w.startswith("yb/common"):
             print(w, headers_use[w])
 
+# Print most used headers weighted
+for w in sorted(weighted_header_use, key=weighted_header_use.get, reverse=True):
+    if not w.endswith("fwd.h"):
+        if not w.startswith("yb/gutil") and not w.startswith("yb/util")  and not w.startswith("yb/common"):
+            print(w, weighted_header_use[w])
 
 
 # Count how many headers each header includes
@@ -78,6 +97,12 @@ sorted_headers = sorted(header_includes_count.items(), key=lambda x: x[1], rever
 for header, count in sorted_headers:
     print(f"{header}: {count}")
 
+
+# Count how many headers each header includes based on num lines included
+header_includes_count = {header: headers for header, headers in header_weight.items()}
+sorted_headers = sorted(header_includes_count.items(), key=lambda x: x[1], reverse=True)
+for header, count in sorted_headers:
+    print(f"{header}: {count}")
 
 
 # Store the list to a file
