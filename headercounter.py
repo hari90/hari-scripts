@@ -2,19 +2,19 @@ import pathlib
 from collections import defaultdict
 import re
 
-file_headers = defaultdict(list)
-headers_headers=defaultdict(list)
-headers_use=defaultdict(list)
+file_headers = defaultdict(set)
+headers_headers=defaultdict(set)
+reverse_headers=defaultdict(set)
+headers_use=defaultdict(int)
 header_weight=defaultdict(int)
 file_line_count=defaultdict(int)
 weighted_header_use=defaultdict(int)
 
 def count_headers():
     src_folder = pathlib.Path("src/yb")
-    all_file_paths = list(src_folder.rglob("*"))
+    build_folder = pathlib.Path("build/latest/src/yb")
+    all_file_paths = list(src_folder.rglob("*")) + list(build_folder.rglob("*"))
     all_file_paths = [ str(s) for s in all_file_paths ]
-    
-    pat = re.compile(r'^(?!.*(_fwd\.h|_pch\.h)$).*\.(h|cc)$')
     
     file_paths = [ s for s in all_file_paths if (s.endswith(".h") or s.endswith(".cc")) and not s.endswith("_pch.h") and not s.endswith("_fwd.h") ]
     
@@ -25,13 +25,13 @@ def count_headers():
         count=0
         try:
             with open(file_path, "r", encoding="utf-8") as f:
-                normalizedfile_path=file_path.removeprefix("src/")
+                normalizedfile_path=file_path.removeprefix("src/").removeprefix("build/latest/src/")
                 for line in f:
                     count=count+1
                     match = include_pattern.match(line)
                     if match:
                         included_header = match.group(1)
-                        file_headers[normalizedfile_path].append(included_header.removeprefix("src/"))
+                        file_headers[normalizedfile_path].add(included_header.removeprefix("src/"))
                 file_line_count[normalizedfile_path]=count
         except Exception as e:
             print(f"Error reading {file_path}: {e}")
@@ -41,7 +41,8 @@ def count_headers():
         if ffile.endswith(".h"):
             header_weight[ffile]=file_line_count[ffile]
             for header in file_headers[ffile]:
-                headers_headers[ffile].append(header)
+                headers_headers[ffile].add(header)
+                reverse_headers[header].add(ffile)
                 header_weight[ffile]+=file_line_count[header]
     
     for ffile in file_headers:
@@ -61,68 +62,58 @@ def count_headers():
                 accumulate_counts(header, set())
     
     # Compute weighted header usage
-    weighted_header_use=defaultdict(int)
     for header in headers_use:
         weighted_header_use[header]=headers_use[header]*header_weight[header]
-    
-    # Print most used headers
+
+def print_dict_int_desc(dict_int):
+    sorted_counts = sorted(dict_int.items(), key=lambda x: x[1], reverse=True)
+    for key, count in sorted_counts:
+        print(f"{key}: {count}")
+
+def print_most_used_headers():
     for w in sorted(headers_use, key=headers_use.get, reverse=True):
         if not w.endswith("fwd.h"):
             if not w.startswith("yb/gutil") and not w.startswith("yb/util")  and not w.startswith("yb/common"):
                 print(w, headers_use[w])
 
+def print_most_used_headers_weighted():
+    for w in sorted(weighted_header_use, key=weighted_header_use.get, reverse=True):
+        if not w.endswith("fwd.h"):
+            if not w.startswith("yb/gutil") and not w.startswith("yb/util")  and not w.startswith("yb/common")  and weighted_header_use[w] != 0:
+                print(w, weighted_header_use[w])
 
-count_headers()
+def print_most_header_included():
+    print_dict_int_desc(headers_headers)
 
+def print_most_header_included_weighted():
+    print_dict_int_desc(header_weight)
 
-headers_use['yb/master/catalog_manager.h']
+def analyze(header):
+    print(f"{header}")
+    print(f"Included in:      {headers_use[header]}")
+    print(f"Weighted usage: {weighted_header_use[header]}")
+    
+    print(f"\nHeaders that it references:")
+    weighted_children=defaultdict(int)
+    for child in headers_headers[header]:
+        weighted_children[child]=header_weight[child]
+    print_dict_int_desc(weighted_children)
 
+    print(f"\nHeaders that reference it:")
+    weighted_parents=defaultdict(int)
+    for parent in reverse_headers[header]:
+        weighted_parents[parent]=header_weight[parent]
+    print_dict_int_desc(weighted_parents)
 
-# Print most used headers
-for w in sorted(headers_use, key=headers_use.get, reverse=True):
-    if not w.endswith("fwd.h"):
-        if not w.startswith("yb/gutil") and not w.startswith("yb/util")  and not w.startswith("yb/common"):
-            print(w, headers_use[w])
+analyze('yb/master/catalog_manager.h')
 
-# Print most used headers weighted
-for w in sorted(weighted_header_use, key=weighted_header_use.get, reverse=True):
-    if not w.endswith("fwd.h"):
-        if not w.startswith("yb/gutil") and not w.startswith("yb/util")  and not w.startswith("yb/common"):
-            print(w, weighted_header_use[w])
+def main():
+    count_headers()
+    # print_most_used_headers_weighted()
+    analyze('yb/master/catalog_manager.h')
+    analyze('yb/master/catalog_manager_if.h')
 
-
-# Count how many headers each header includes
-header_includes_count = {header: len(headers) for header, headers in headers_headers.items()}
-sorted_headers = sorted(header_includes_count.items(), key=lambda x: x[1], reverse=True)
-for header, count in sorted_headers:
-    print(f"{header}: {count}")
-
-
-# Count how many headers each header includes based on num lines included
-header_includes_count = {header: headers for header, headers in header_weight.items()}
-sorted_headers = sorted(header_includes_count.items(), key=lambda x: x[1], reverse=True)
-for header, count in sorted_headers:
-    print(f"{header}: {count}")
-
-
-# Store the list to a file
-with open("file_headers.txt", "w", encoding="utf-8") as f:
-    for file, headers in file_headers.items():
-        f.write(f"{file}:\n")
-        for header in headers:
-            f.write(f"  {header}\n")
-        f.write("\n")  # Add a blank line for readability
-
-
-# Read back from the file
-with open("file_headers.txt", "r", encoding="utf-8") as f:
-    current_file = None
-    for line in f:
-        line = line.strip()
-        if line.endswith(":"):  # Detect file name
-            current_file = line[:-1]  # Remove trailing colon
-            file_headers[current_file] = []
-        elif current_file and line:  # Add headers to the current file
-            file_headers[current_file].append(line)
+if __name__ == "__main__":
+    main()
 
 
