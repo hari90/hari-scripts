@@ -73,13 +73,12 @@ def print_dict_int_desc(dict_int):
 def print_most_used_headers():
     for w in sorted(headers_use, key=headers_use.get, reverse=True):
         if not w.endswith("fwd.h"):
-            if not w.startswith("yb/gutil") and not w.startswith("yb/util")  and not w.startswith("yb/common"):
                 print(w, headers_use[w])
 
 def print_most_used_headers_weighted():
     for w in sorted(weighted_header_use, key=weighted_header_use.get, reverse=True):
         if not w.endswith("fwd.h"):
-            if not w.startswith("yb/gutil") and not w.startswith("yb/util")  and not w.startswith("yb/common")  and weighted_header_use[w] != 0:
+            if weighted_header_use[w] != 0:
                 print(w, weighted_header_use[w])
 
 def print_most_header_included():
@@ -91,6 +90,7 @@ def print_most_header_included_weighted():
 def analyze(header):
     print(f"{header}")
     print(f"Included in:      {headers_use[header]}")
+    print(f"Weight:      {header_weight[header]}")
     print(f"Weighted usage: {weighted_header_use[header]}")
     
     print(f"\nHeaders that it references:")
@@ -98,7 +98,7 @@ def analyze(header):
     for child in headers_headers[header]:
         weighted_children[child]=header_weight[child]
     print_dict_int_desc(weighted_children)
-
+    
     print(f"\nHeaders that reference it:")
     weighted_parents=defaultdict(int)
     for parent in reverse_headers[header]:
@@ -109,11 +109,9 @@ analyze('yb/master/catalog_manager.h')
 
 def main():
     count_headers()
-    # print_most_used_headers_weighted()
+    print_most_used_headers_weighted()
     analyze('yb/master/catalog_manager.h')
     analyze('yb/master/catalog_manager_if.h')
 
 if __name__ == "__main__":
     main()
-
-
