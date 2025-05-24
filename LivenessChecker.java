@@ -65,7 +65,7 @@ public class LivenessChecker {
     ScheduledExecutorService tpsLogger = Executors.newSingleThreadScheduledExecutor();
 
     // Start TPS logging every second
-    tpsLogger.scheduleAtFixedRate(this::logTps, 1, 1, TimeUnit.SECONDS);
+    tpsLogger.scheduleAtFixedRate(this::logTps, 1, 5, TimeUnit.SECONDS);
 
     for (int i = 0; i < threadCount; i++) {
       executor.submit(() -> { InsertWorker(); });
@@ -137,7 +137,7 @@ public class LivenessChecker {
   }
 
   private void logTps() {
-    int tpsValue = transactionCounter.getAndSet(0);
+    int tpsValue = transactionCounter.getAndSet(0) / 5;
     try (FileWriter writer = new FileWriter(logFile, true)) {
       String logEntry =
           LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + ", "
